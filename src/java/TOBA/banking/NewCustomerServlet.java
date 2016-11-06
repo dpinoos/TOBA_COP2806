@@ -3,11 +3,15 @@ NewCustomerServlet
  */
 package TOBA.banking;
 
+import TOBA.business.User;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 
 /**
  *
@@ -19,8 +23,12 @@ public class NewCustomerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        String url = "/new_customer.html";
+        String url = "/new_customer.jsp";
 
+        // initialize the current year that's used in the copyright notice
+        GregorianCalendar currentDate = new GregorianCalendar();
+        int currentYear = currentDate.get(Calendar.YEAR);
+        request.setAttribute("currentYear", currentYear);
         response.setContentType("text/html");
 
         // get current action
@@ -37,10 +45,14 @@ public class NewCustomerServlet extends HttpServlet {
             String state = request.getParameter("state");
             String zipcode = request.getParameter("zipcode");
             String email = request.getParameter("email");
+            String username = request.getParameter("lastName") + request.getParameter("zipcode");
+            String password = ("welcome1");
 
-            // store data in Customer object
-/*            Customer customer = new Customer(firstName, lastName, phone, address, city, state, zipcode, email);*/
-            // validate the parameters
+            // store the data in a User object
+            User user = new User(firstName, lastName, phone, address,
+                    city, state, zipcode, email, username, password);
+
+//             validate the parameters
             String message;
             if (firstName == null || lastName == null || phone == null || address == null
                     || city == null || state == null || zipcode == null || email == null
@@ -50,12 +62,23 @@ public class NewCustomerServlet extends HttpServlet {
                 url = "/new_customer.jsp";
             } else {
                 message = "";
-                url = "/success.html";
+                url = "/success.jsp";
             }
             request.setAttribute("message", message);
+            // store the User object as a session attribute
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
         }
-            getServletContext()
-                    .getRequestDispatcher(url)
-                    .forward(request, response);
+
+        getServletContext()
+                .getRequestDispatcher(url)
+                .forward(request, response);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        doPost(request, response);
     }
 }

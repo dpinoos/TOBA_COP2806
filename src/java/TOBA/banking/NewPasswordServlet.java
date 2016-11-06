@@ -1,54 +1,46 @@
 /*
-      LoginServlet.
+New Password Servlet
  */
 package TOBA.banking;
 
+import TOBA.business.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author David
  */
-public class LoginServlet extends HttpServlet {
+public class NewPasswordServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        String url = "/login.jsp";
+        String url = "/password_reset.jsp";
 
         response.setContentType("text/html");
 
         // get current action
         String action = request.getParameter("action");
 
-        // perform action and set URL to appropriate page
-        if (action.equals("log")) {
-            // get parameters from the request
-            String Username = request.getParameter("username");
-            String Password = request.getParameter("password");
-
-            // validate the parameters
-            String message;
-            if (Username.equals("jsmith@toba.com") && Password.equals("letmein")) {
-                message = "Login Successful.";
-                url = "/account_activity.jsp";
-            }
-            else {
-                message = "Login failed. Please return to Login page"
-                        + " and enter a valid Username & Password.";
-                url = "/login_failure.jsp";
-            }
-            request.setAttribute("message", message);
+        if (action.equals("change")) {
+            String newPassword = request.getParameter("newPassword");
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("user");
+            user.setPassword(newPassword);
+            session.setAttribute("user", user);
+            url = "/account_activity.jsp";
         }
         getServletContext()
                 .getRequestDispatcher(url)
                 .forward(request, response);
     }
+
     @Override
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response)

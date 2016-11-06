@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<!--
-Login page
--->
-<html>
-    <head>
-        <title>Login</title>
-        <link rel="stylesheet" href="styles/main.css" type="text/css"/>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
+<%-- 
+    Document   : login
+    Created on : Nov 6, 2016, 1:15:24 AM
+    Author     : David
+--%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/includes/header.html"%>
+
         <h1>Login</h1>
         <div id="nav">
-            <a href="index.html">Home</a>&nbsp;
-            <a href="login.html">Login</a>&nbsp;
+            <a href="index.jsp">Home</a>&nbsp;
+            <a href="login.jsp">Login</a>&nbsp;
             <a href="new_customer.jsp">New Customer</a>&nbsp;
-            <a href="account_activity.html">Account Activity</a>&nbsp;
-            <a href="transaction.html">Transaction</a>
+            <a href="account_activity.jsp">Account Activity</a>&nbsp;
+            <a href="transaction.jsp">Transaction</a>
         </div>
         <h2>Enter Login information or select <a href="new_customer.jsp">New Customer</a></h2>
         <form action="login" method="post">
@@ -27,6 +23,6 @@ Login page
             <input type="password" name="password" required><br>
             <label>&nbsp;</label>
             <input type="submit" value="Login" class="margin_left">
+            <a href="password_reset.jsp">Reset Password</a>
         </form>
-    </body>
-</html>
+<%@ include file="/includes/footer.jsp" %>

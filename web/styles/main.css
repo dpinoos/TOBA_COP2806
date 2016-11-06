@@ -28,6 +28,13 @@ input[type="text"], input[type="email"], input[type="tel"], input[type="password
     margin-left: 0.5em;    
     margin-bottom: 0.5em;
 }
+span {
+    margin-left: 0.5em;    
+    margin-bottom: 0.5em;    
+}
+br {
+    clear: both;
+}
 /* The styles for the classes */
 .pad_top {
     padding-top: 0.25em;
