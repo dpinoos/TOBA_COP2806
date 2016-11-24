@@ -16,7 +16,7 @@
     </servlet>
 
     <servlet>
-        <servlet-name>NewPassword</servlet-name>
+        <servlet-name>NewPasswordServlet</servlet-name>
         <servlet-class>TOBA.banking.NewPasswordServlet</servlet-class>
     </servlet>
 
@@ -36,7 +36,7 @@
     </servlet-mapping>
     
     <servlet-mapping>
-        <servlet-name>NewPassword</servlet-name>
+        <servlet-name>NewPasswordServlet</servlet-name>
         <url-pattern>/newPassword</url-pattern>
     </servlet-mapping>
 

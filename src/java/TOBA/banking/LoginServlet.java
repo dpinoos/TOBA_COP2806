@@ -3,11 +3,14 @@
  */
 package TOBA.banking;
 
+import TOBA.business.User;
+import TOBA.data.UserDB;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,15 +36,22 @@ public class LoginServlet extends HttpServlet {
             String Password = request.getParameter("password");
 
             // validate the parameters
-            String message;
-            if (Username.equals("jsmith@toba.com") && Password.equals("letmein")) {
-                message = "Login Successful.";
-                url = "/account_activity.jsp";
-            }
-            else {
-                message = "Login failed. Please return to Login page"
-                        + " and enter a valid Username & Password.";
-                url = "/login_failure.jsp";
+            String message = "";
+            HttpSession session = request.getSession();
+            User user = UserDB.selectUser(Username, Password);
+            if (user == null) {
+                url = "/new_customer.jsp";
+            } else {
+                if (Username.equals(user.getUsername())
+                        && Password.equals(user.getPassword())) {
+                    message = "Login Successful.";
+                    url = "/account_activity.jsp";
+                    session.setAttribute("user", user);
+                } else {
+                    message = "Login failed. Please return to Login page"
+                            + " and enter a valid Username & Password.";
+                    url = "/login_failure.jsp";
+                }
             }
             request.setAttribute("message", message);
         }
@@ -49,6 +59,7 @@ public class LoginServlet extends HttpServlet {
                 .getRequestDispatcher(url)
                 .forward(request, response);
     }
+
     @Override
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response)

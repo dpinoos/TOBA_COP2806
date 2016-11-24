@@ -4,6 +4,7 @@ New Password Servlet
 package TOBA.banking;
 
 import TOBA.business.User;
+import TOBA.data.UserDB;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,6 +34,7 @@ public class NewPasswordServlet extends HttpServlet {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
             user.setPassword(newPassword);
+            UserDB.update(user);
             session.setAttribute("user", user);
             url = "/account_activity.jsp";
         }

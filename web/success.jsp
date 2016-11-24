@@ -8,16 +8,18 @@
 
         <h1>Success!</h1>
         <div id="nav">
-            <a href="index.html">Home</a>&nbsp;
-            <a href="login.html">Login</a>&nbsp;
+            <a href="index.jsp">Home</a>&nbsp;
+            <a href="login.jsp">Login</a>&nbsp;
             <a href="new_customer.jsp">New Customer</a>&nbsp;
             <a href="account_activity.jsp">Account Activity</a>&nbsp;
-            <a href="transaction.html">Transaction</a>
+            <a href="transaction.jsp">Transaction</a>
         </div>
         <h2>The account has been successfully created</h2>
         <p>Here is the information that you entered <br> 
             along with your username and password:</p>
 
+        <label>User ID:</label>
+        <span>${user.userId}</span><br>
         <label>First Name:</label>
         <span>${user.firstName}</span><br>
         <label>Last Name:</label>

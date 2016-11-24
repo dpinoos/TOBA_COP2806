@@ -13,5 +13,6 @@
             <a href="new_customer.jsp">New Customer</a>&nbsp;
             <a href="account_activity.jsp">Account Activity</a>&nbsp;
             <a href="transaction.jsp">Transaction</a>
+            <a href="transfer.jsp">Transfer</a>
         </div>
 <%@ include file="/includes/footer.jsp" %>

@@ -3,7 +3,10 @@ NewCustomerServlet
  */
 package TOBA.banking;
 
+import TOBA.business.Account;
 import TOBA.business.User;
+import TOBA.data.AccountDB;
+import TOBA.data.UserDB;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -46,11 +49,7 @@ public class NewCustomerServlet extends HttpServlet {
             String zipcode = request.getParameter("zipcode");
             String email = request.getParameter("email");
             String username = request.getParameter("lastName") + request.getParameter("zipcode");
-            String password = ("welcome1");
-
-            // store the data in a User object
-            User user = new User(firstName, lastName, phone, address,
-                    city, state, zipcode, email, username, password);
+            String password = "welcome1";
 
 //             validate the parameters
             String message;
@@ -61,9 +60,19 @@ public class NewCustomerServlet extends HttpServlet {
                 message = "Please fill out all text boxes.";
                 url = "/new_customer.jsp";
             } else {
+
                 message = "";
                 url = "/success.jsp";
             }
+            // store the data in a User object
+            User user = new User(firstName, lastName, phone, address,
+                    city, state, zipcode, email, username, password);
+            UserDB.insert(user);
+            Account savings = new Account("SAVINGS", 25.00, user);
+            Account checking = new Account("CHECKING", 0.00, user);
+            AccountDB.insert(savings);
+            AccountDB.insert(checking);
+//
             request.setAttribute("message", message);
             // store the User object as a session attribute
             HttpSession session = request.getSession();

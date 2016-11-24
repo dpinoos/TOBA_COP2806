@@ -11,8 +11,6 @@
             <a href="index.jsp">Home</a>&nbsp;
             <a href="login.jsp">Login</a>&nbsp;
             <a href="new_customer.jsp">New Customer</a>&nbsp;
-            <a href="account_activity.jsp">Account Activity</a>&nbsp;
-            <a href="transaction.jsp">Transaction</a>
         </div>
         <p><i>${message}</i></p>
         <h2>New customers please fill in all fields below</h2>
