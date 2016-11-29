@@ -3,7 +3,9 @@
  */
 package TOBA.banking;
 
+import TOBA.business.Account;
 import TOBA.business.User;
+import TOBA.data.AccountDB;
 import TOBA.data.UserDB;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -46,7 +48,12 @@ public class LoginServlet extends HttpServlet {
                         && Password.equals(user.getPassword())) {
                     message = "Login Successful.";
                     url = "/account_activity.jsp";
+                    
+                    Account checking = AccountDB.selectAccount("CHECKING", user);
+                    Account savings = AccountDB.selectAccount("SAVINGS", user);
                     session.setAttribute("user", user);
+                    session.setAttribute("checking", checking);
+                    session.setAttribute("savings", savings);
                 } else {
                     message = "Login failed. Please return to Login page"
                             + " and enter a valid Username & Password.";

@@ -17,18 +17,28 @@
     <a href="transfer.jsp">Transfer</a>
 </div>
 <label>Savings Balance:</label>
-<%--<span>${user.account.savings}</span>--%>
+<span>${savings.balance}</span>
 <br>
 <label>Checking Balance:</label>
-<%--<span>${user.account.checking}</span>--%>
+<span>${checking.balance}</span>
 <br>
 
-<p>Please select transfer accounts:</p>
+<!--<p>Please select transfer accounts:</p>
 <select name="transfer">
     <option value="Sav-Check" selected>Savings to Checking</option>
     <option value="Check-Sav">Checking to Savings</option>
-</select><br><br><br>
-<form action="" method="post">
+</select><br>
+<p>Please enter transfer amount, not to exceed available balance</p>-->
+
+<br>
+<form action="transaction" method="post">
+    <p>Please select transfer accounts:</p>
+<select name="transfer">
+    <option value="Sav-Check" selected>Savings to Checking</option>
+    <option value="Check-Sav">Checking to Savings</option>
+</select><br>
+    <p>Please enter transfer amount, not to exceed available balance</p>
+    <input type="number" name="transAmount" required><br><br>
     <input type="submit" value="Submit Transfer" class="margin_left">
 
 </form>

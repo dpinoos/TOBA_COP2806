@@ -3,12 +3,17 @@
  */
 package TOBA.banking;
 
+import TOBA.business.Account;
+import TOBA.business.Transaction;
+import TOBA.business.User;
+import TOBA.data.AccountDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,19 +32,45 @@ public class TransactionServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet TransactionServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet TransactionServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        Double transferAmount = Double.parseDouble(request.getParameter("transAmount"));
+        String transferType = request.getParameter("transfer");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        Account checking = (Account) session.getAttribute("checking");
+        Account savings = (Account) session.getAttribute("savings");
+        double startAmnt;
+
+        if(transferType.matches("Sav-Check")){
+            startAmnt = savings.getBalance();
+            savings.debit(transferAmount);
+            savings.addTransactions(
+                    new Transaction(startAmnt, savings.getBalance(), transferAmount, "DEBIT"));
+            
+            startAmnt = checking.getBalance();
+            checking.credit(transferAmount);
+            checking.addTransactions(
+                    new Transaction(startAmnt, checking.getBalance(), transferAmount, "CREDIT"));
         }
+        else{
+            startAmnt = savings.getBalance();
+            savings.credit(transferAmount);
+            savings.addTransactions(
+                    new Transaction(startAmnt, savings.getBalance(), transferAmount, "CREDIT"));
+            
+            startAmnt = checking.getBalance();
+            checking.debit(transferAmount);
+            checking.addTransactions(new Transaction(
+                    startAmnt, checking.getBalance(), transferAmount, "DEBIT"));
+        }
+        AccountDB.update(checking);
+        AccountDB.update(savings);
+        session.setAttribute("checking", checking);
+        session.setAttribute("savings", savings);
+        
+        getServletContext()
+                .getRequestDispatcher("/transfer.jsp")
+                .forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
