@@ -5,6 +5,7 @@ package TOBA.business;
 
 /* @author David */
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +15,8 @@ import javax.persistence.Id;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long userId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Double userId;
     private String firstName;
     private String lastName;
     private String phone;
@@ -26,6 +27,8 @@ public class User implements Serializable {
     private String email;
     private String username;
     private String password;
+    private String salt;
+    private long date;
 
     public User() {
         firstName = "";
@@ -38,6 +41,8 @@ public class User implements Serializable {
         email = "";
         username = "";
         password = "";
+        salt = "";
+        date = new Date().getTime();
     }
 
     public User(String firstName, String lastName, String phone, String address, String city,
@@ -52,11 +57,9 @@ public class User implements Serializable {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.salt = "";
     }
 
-    public Long getUserId() {
-        return userId;
-    }
     public String getFirstName() {
         return firstName;
     }
@@ -135,5 +138,21 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public double getUserID() {
+        return userId;
     }
 }

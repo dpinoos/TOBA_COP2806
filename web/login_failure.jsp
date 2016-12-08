@@ -6,12 +6,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/includes/header.html"%>
 
-        <h1>Login Failure</h1>
-        <div id="nav">
-            <a href="index.jsp">Home</a>&nbsp;
-            <a href="login.jsp">Login</a>&nbsp;
-            <a href="new_customer.jsp">New Customer</a>&nbsp;
-        </div>
-        <h2>Incorrect Login</h2>
-        <h3>Please enter a valid Username and Password</h3>
+<h1>Login Failure</h1>
+<div id="nav">
+    <a href="index.jsp">Home</a>&nbsp;
+    <a href="login.jsp">User Login</a>&nbsp;
+    <a href="new_customer.jsp">New Customer</a>&nbsp;
+    <a href="admin/login.jsp">Admin Login</a>&nbsp;
+    <a href="admin/reports.jsp">Reports</a>&nbsp;
+</div>
+<h2>Incorrect Login</h2>
+<h3>Please enter a valid Username and Password</h3>
 <%@ include file="/includes/footer.jsp" %>

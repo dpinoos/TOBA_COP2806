@@ -1,6 +1,7 @@
 package TOBA.data;
 
 import TOBA.business.User;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
@@ -15,7 +16,7 @@ public class UserDB {
     public static void insert(User user) {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
-        trans.begin();        
+        trans.begin();
         try {
             em.persist(user);
             trans.commit();
@@ -30,7 +31,7 @@ public class UserDB {
     public static void update(User user) {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
-        trans.begin();       
+        trans.begin();
         try {
             em.merge(user);
             trans.commit();
@@ -44,8 +45,8 @@ public class UserDB {
 
     public static User selectUser(String username, String password) {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
-        String qString = "SELECT u FROM User u " +
-                "WHERE u.username = :username AND u.password = :password";
+        String qString = "SELECT u FROM User u "
+                + "WHERE u.username = :username AND u.password = :password";
         TypedQuery<User> q = em.createQuery(qString, User.class);
         q.setParameter("username", username);
         q.setParameter("password", password);
@@ -58,5 +59,22 @@ public class UserDB {
             em.close();
         }
     }
-    
+
+    public static List<User> selectUsers() {
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();
+        List<User> users;
+        String qString = "SELECT u FROM User u ";
+        TypedQuery<User> q = em.createQuery(qString, User.class);
+
+        try {
+            users = q.getResultList();
+            return users;
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
 }
+

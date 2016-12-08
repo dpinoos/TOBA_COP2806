@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
                         && Password.equals(user.getPassword())) {
                     message = "Login Successful.";
                     url = "/account_activity.jsp";
-                    
+
                     Account checking = AccountDB.selectAccount("CHECKING", user);
                     Account savings = AccountDB.selectAccount("SAVINGS", user);
                     session.setAttribute("user", user);

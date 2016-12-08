@@ -38,16 +38,18 @@ public class Transaction implements Serializable {
     public double getStartBal() {
         return startBal;
     }
-    
-     public String getStartCurrencyFormat(){
+
+    public String getStartCurrencyFormat() {
         NumberFormat currency = NumberFormat.getCurrencyInstance();
         return currency.format(startBal);
     }
-     public String getEndCurrencyFormat(){
+
+    public String getEndCurrencyFormat() {
         NumberFormat currency = NumberFormat.getCurrencyInstance();
         return currency.format(endBal);
     }
-     public String getTransCurrencyFormat(){
+
+    public String getTransCurrencyFormat() {
         NumberFormat currency = NumberFormat.getCurrencyInstance();
         return currency.format(transAmnt);
     }

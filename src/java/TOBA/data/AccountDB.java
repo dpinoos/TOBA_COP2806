@@ -11,12 +11,12 @@ import javax.persistence.TypedQuery;
  *
  * @author David
  */
-
 public class AccountDB {
-        public static void insert(Account account) {
+
+    public static void insert(Account account) {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
-        trans.begin();        
+        trans.begin();
         try {
             em.persist(account);
             trans.commit();
@@ -27,10 +27,11 @@ public class AccountDB {
             em.close();
         }
     }
+
     public static Account selectAccount(String accntType, User user) {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
-        String qString = "SELECT a FROM Account a " +
-                "WHERE a.accountType = :accountType AND a.accountOwner = :accountOwner";
+        String qString = "SELECT a FROM Account a "
+                + "WHERE a.accountType = :accountType AND a.accountOwner = :accountOwner";
         TypedQuery<Account> q = em.createQuery(qString, Account.class);
         q.setParameter("accountType", accntType);
         q.setParameter("accountOwner", user);
@@ -43,11 +44,11 @@ public class AccountDB {
             em.close();
         }
     }
-        
+
     public static void update(Account account) {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
-        trans.begin();       
+        trans.begin();
         try {
             em.merge(account);
             trans.commit();

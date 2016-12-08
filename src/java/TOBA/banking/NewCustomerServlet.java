@@ -6,8 +6,10 @@ package TOBA.banking;
 import TOBA.business.Account;
 import TOBA.business.User;
 import TOBA.data.AccountDB;
+import TOBA.data.PasswordUtil;
 import TOBA.data.UserDB;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.servlet.ServletException;
@@ -64,9 +66,27 @@ public class NewCustomerServlet extends HttpServlet {
                 message = "";
                 url = "/success.jsp";
             }
+            // hash and salt password
+            String hashedPassword;
+            String salt = "";
+            String saltedAndHashedPassword;
+            try {
+                hashedPassword = PasswordUtil.hashPassword(password);
+                salt = PasswordUtil.getSalt();
+                saltedAndHashedPassword = PasswordUtil.hashAndSaltPassword(password);
+
+            } catch (NoSuchAlgorithmException ex) {
+                hashedPassword = ex.getMessage();
+                saltedAndHashedPassword = ex.getMessage();
+            }
+            request.setAttribute("hashedPassword", hashedPassword);
+            request.setAttribute("salt", salt);
+            request.setAttribute("saltedAndHashedPassword", saltedAndHashedPassword);
+
             // store the data in a User object
             User user = new User(firstName, lastName, phone, address,
-                    city, state, zipcode, email, username, password);
+                    city, state, zipcode, email, username, saltedAndHashedPassword);
+            user.setSalt(salt);
             UserDB.insert(user);
             Account savings = new Account("SAVINGS", 25.00, user);
             Account checking = new Account("CHECKING", 0.00, user);
@@ -77,6 +97,10 @@ public class NewCustomerServlet extends HttpServlet {
             // store the User object as a session attribute
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+            request.setAttribute("user", user);
+            request.setAttribute("currentDate", currentDate);
+            session.setAttribute("salt", salt);
+            session.setAttribute("saltedAndHashedPassword", saltedAndHashedPassword);
         }
 
         getServletContext()
